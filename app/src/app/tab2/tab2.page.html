@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Call Us!
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col style="display: flex;"> 
+        <ion-label class="main-title">Contact our health center</ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-col-align">
+        <ion-icon class="med-icon" name="people-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row> 
+      <ion-label class="main-description">Our AI-powered system can understand your voice and analyze your symptoms. Please record a voice message describing them in detail.</ion-label>
+    </ion-row>
+
+    <ion-row class="text-align: center;">
+      <ion-button class="call-button" 
+      size="large" 
+      [color]="recordColor" 
+      expand="block"
+      (click)="startRecording()"
+      >{{this.recordLabel}}</ion-button>
+    </ion-row>
+
+    <ion-row>
+      <ion-label [hidden]="!recordState" class="timer">Elapsed time: {{recordTime}} seconds</ion-label>
+    </ion-row>
+
+  </ion-grid>
+  <ion-label class="terms-service">
+    <p>By recording you accept the Terms of Service and the Privacy Policy of this application.</p>
+  </ion-label>
+</ion-content>
