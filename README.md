@@ -1,8 +1,9 @@
 # Cov-Response
 Projecte per la hackathon feta a SM durant el curs 2020.
 
-![sm](https://user-images.githubusercontent.com/15250664/81932040-5be7ea00-95eb-11ea-95ca-87a8f1cd2bc5.png)
-
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/15250664/81932040-5be7ea00-95eb-11ea-95ca-87a8f1cd2bc5.png">
+</p>
 
 ## Com compilar i executar el projecte
 
