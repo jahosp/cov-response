@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { MediaCapture } from '@ionic-native/media-capture/ngx'
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { Media} from '@ionic-native/media/ngx'
-import { File } from '@ionic-native/file/ngx'
-import { Storage } from '@ionic/storage';
+import { File, FileEntry } from '@ionic-native/file/ngx'
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tab2',
@@ -12,7 +12,7 @@ import { Storage } from '@ionic/storage';
 export class Tab2Page {
 
 
-  constructor(private file: File, private media:Media) { }
+  constructor(private file: File, private media:Media, private transfer:FileTransfer, private http:HttpClient) { }
   
   recordState = false;
   recordLabel = "Record";
@@ -20,6 +20,9 @@ export class Tab2Page {
   recordTime : number = 0;
   interval;
   recordingFile;
+  fileTransfer: FileTransferObject = this.transfer.create();
+  fileUrl;
+
   startTimer() {
     this.interval = setInterval(() => {
         this.recordTime++;
@@ -42,7 +45,7 @@ export class Tab2Page {
 
       this.file.createFile(this.file.externalDataDirectory, 'record.mp3', true)
       .then((path) => {
-  
+        this.fileUrl = path.toURL();
         this.recordingFile = this.media.create(path.toURL());
         this.recordingFile.startRecord();
       })
@@ -55,35 +58,33 @@ export class Tab2Page {
       this.stopTimer();
       console.log("Recording stoped");
       this.recordingFile.stopRecord();
+      console.log("Recorded file at: " + this.fileUrl);
+      this.sendRecord();
     }
 
-    /*
-    this.file.createFile(this.file.externalDataDirectory, 'record.mp3', true)
-    .then((path) => {
-
-      let file = this.media.create(path.toURL());
-      file.startRecord();
-      this.recordState = true;
-      this.recordLabel = "Recording";
-      console.log("Recording started");
-
-      window.setTimeout(() => {
-        file.stopRecord();
-        this.recordState = false;
-        this.recordLabel = "Record";
-        console.log("Recording stoped");
-      } , 10000);
-    })
-
-    .catch((err) => {console.log("ERR-CREATEFILE: " + err)});
-    */
   }
 
-  play(myFile) {
+ sendRecord() {
+    console.log("Sending File");
+    let fileURL = '' + this.fileUrl;
+    let options: FileUploadOptions = {
+        fileKey: 'file',
+        fileName: fileURL.substr(fileURL.lastIndexOf('/')+1),
+        mimeType: 'audio/mpeg',
+        headers: {'Content-Type':'audio/mpeg'}
+    }
     
-  }
+    let user_id = 'testId';
+    // POSAR URL DEL MIDDLEWARE
+    let endpoint = encodeURI('https://0bedfab2.ngrok.io/audio/' + user_id);
 
-
+    this.fileTransfer.upload(fileURL, endpoint, options)
+      .then((data) => {
+        console.log(data);
+      }, (err) => {
+        console.log(err);
+      })
+ }
 
 
 
