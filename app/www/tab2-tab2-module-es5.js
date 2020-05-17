@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Call Us!\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\"></ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-grid>\n    <ion-row>\n      <ion-col style=\"display: flex;\"> \n        <ion-label class=\"main-title\">Contact our health center</ion-label>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col class=\"ion-col-align\">\n        <ion-icon class=\"med-icon\" name=\"people-outline\"></ion-icon>\n      </ion-col>\n    </ion-row>\n\n    <ion-row> \n      <ion-label class=\"main-description\">Our AI-powered system can understand your voice and analyze your symptoms. Please record a voice message describing them in detail.</ion-label>\n      <ion-button\n      [color]=\"recordColor\" \n      expand=\"block\"\n      (click)=\"sendRecord()\"\n      >Send Record</ion-button>\n    </ion-row>\n\n    <ion-row class=\"text-align: center;\">\n      <ion-button class=\"call-button\" \n      size=\"large\" \n      [color]=\"recordColor\" \n      expand=\"block\"\n      (click)=\"startRecording()\"\n      >{{this.recordLabel}}</ion-button>\n    </ion-row>\n\n    <ion-row>\n      <ion-label [hidden]=\"!recordState\" class=\"timer\">Elapsed time: {{recordTime}} seconds</ion-label>\n    </ion-row>\n\n  </ion-grid>\n  <ion-label class=\"terms-service\">\n    <p>By recording you accept the Terms of Service and the Privacy Policy of this application.</p>\n  </ion-label>\n</ion-content>\n";
+    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Call Us!\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\"></ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-grid>\n    <ion-row>\n      <ion-col style=\"display: flex;\"> \n        <ion-label class=\"main-title\">Contact our health center</ion-label>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col class=\"ion-col-align\">\n        <ion-icon class=\"med-icon\" name=\"people-outline\"></ion-icon>\n      </ion-col>\n    </ion-row>\n\n    <ion-row> \n      <ion-label class=\"main-description\">Our AI-powered system can understand your voice and analyze your symptoms. Please record a voice message describing them in detail.</ion-label>\n    </ion-row>\n\n    <ion-row class=\"text-align: center;\">\n      <ion-button class=\"call-button\" \n      size=\"large\" \n      [color]=\"recordColor\" \n      expand=\"block\"\n      (click)=\"startRecording()\"\n      >{{this.recordLabel}}</ion-button>\n    </ion-row>\n\n    <ion-row>\n      <ion-label [hidden]=\"!recordState\" class=\"timer\">Elapsed time: {{recordTime}} seconds</ion-label>\n    </ion-row>\n\n  </ion-grid>\n  <ion-label class=\"terms-service\">\n    <p>By clicking record you accept the Terms of Service and the Privacy Policy of this application.</p>\n  </ion-label>\n</ion-content>\n";
     /***/
   },
 
@@ -298,22 +298,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             this.stopTimer();
             console.log("Recording stoped");
             this.recordingFile.stopRecord();
+            console.log("Recorded file at: " + this.fileUrl);
+            this.sendRecord();
           }
         }
       }, {
         key: "sendRecord",
         value: function sendRecord() {
-          console.log("Recording file: " + this.fileUrl);
-          var url = '' + this.fileUrl;
+          console.log("Sending File");
+          var fileURL = '' + this.fileUrl;
           var options = {
             fileKey: 'file',
-            fileName: url.substr(url.lastIndexOf('/') + 1),
+            fileName: fileURL.substr(fileURL.lastIndexOf('/') + 1),
             mimeType: 'audio/mpeg',
             headers: {
               'Content-Type': 'audio/mpeg'
             }
           };
-          this.fileTransfer.upload(url, encodeURI('https://0bedfab2.ngrok.io/audio/1234'), options).then(function (data) {
+          var user_id = 'testId'; // POSAR URL DEL MIDDLEWARE
+
+          var endpoint = encodeURI('https://58404a9a.ngrok.io/audio/' + user_id);
+          this.fileTransfer.upload(fileURL, endpoint, options).then(function (data) {
             console.log(data);
           }, function (err) {
             console.log(err);

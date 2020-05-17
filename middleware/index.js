@@ -20,7 +20,7 @@ app.post('/audio/:user_id', function(req, res) {
     let user_id = req.params.user_id;
     console.log("Recieved audio from user: "+ user_id);
     // Guardem l'arxiu a ./records/userid_time.mp3 
-    let writeStream = fs.createWriteStream('./records/' + user_id + '_' +Date.now() + '.mp3');
+    let writeStream = fs.createWriteStream('./records/' + user_id + '_' +Date.now() + '.aac');
     req.pipe(writeStream);
     res.sendStatus(200);
 })
