@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Info
+      Your requests
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,38 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Your Info</ion-title>
+      <ion-title size="large">Your requests</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-grid>
+    <ion-row>
+      <ion-col style="display: flex;"> 
+        <ion-label class="main-title">Results</ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-col-align">
+        <ion-icon class="text-icon" name="document-text-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row> 
+      <ion-label class="main-description">Down below you can see the response for all your requests.</ion-label>
+    </ion-row>
+
+    <ion-list *ngFor="let res of response">
+
+      <ion-item>
+        <ion-label>{{res.responseTitle}}
+          <p>{{res.responseText}}</p>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+
+  </ion-grid>
+
+
 </ion-content>

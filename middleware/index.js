@@ -1,6 +1,7 @@
 /*
 cov-response-middleware
 */
+var converter = require('./converter');
 var express = require('express');
 var fs = require('fs');
 var cors = require('cors')
@@ -9,8 +10,8 @@ var app = express();
 app.use(cors());
 
 app.get('/', function (req, res) {
-  console.log("/");
-  res.send({text: 'Welcome'});
+  data = require('./responses/res_test.json');
+  res.send(data);
   res.end();
 });
 

@@ -282,7 +282,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             this.recordColor = "danger";
             this.startTimer();
             console.log("Recording started");
-            this.file.createFile(this.file.externalDataDirectory, 'record.mp3', true).then(function (path) {
+            this.file.createFile(this.file.externalDataDirectory, 'record.aac', true).then(function (path) {
               _this2.fileUrl = path.toURL();
               _this2.recordingFile = _this2.media.create(path.toURL());
 
@@ -317,7 +317,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           };
           var user_id = 'testId'; // POSAR URL DEL MIDDLEWARE
 
-          var endpoint = encodeURI('https://58404a9a.ngrok.io/audio/' + user_id);
+          var endpoint = encodeURI('https://16c2d18b.ngrok.io' + user_id);
           this.fileTransfer.upload(fileURL, endpoint, options).then(function (data) {
             console.log(data);
           }, function (err) {

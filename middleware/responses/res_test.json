@@ -1,0 +1,9 @@
+{ "history" : [ 
+    {  
+        "id_response" : "1", "responseTitle" : "TITLE_1", "responseText" : "RES_DESCRIPTION" 
+    },
+    {
+        "id_response" : "2", "responseTitle" : "TITLE_2", "responseText" : "RES_DESCRIPTION" 
+    }
+    ]
+}
