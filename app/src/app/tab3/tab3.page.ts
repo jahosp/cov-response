@@ -14,7 +14,7 @@ export class Tab3Page {
   response;
 
   ionViewWillEnter() {
-    let result = this.httpClient.get('https://edd99d06.ngrok.io/')
+    let result = this.httpClient.get('https://cad4435b.ngrok.io/results/1234')
     .subscribe(data => {
       this.response = data.history;
     })
