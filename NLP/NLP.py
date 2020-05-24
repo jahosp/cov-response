@@ -1,6 +1,8 @@
 from google.cloud import language_v1
 from google.cloud.language_v1 import enums
 import sys, getopt
+import os
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="./patata.json"
 
 def analyze_syntax(text_content, wordsArray, headsArray,typesArray):
     client = language_v1.LanguageServiceClient()
