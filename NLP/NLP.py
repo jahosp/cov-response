@@ -41,6 +41,26 @@ def getChildrenWordsByIndex(index, wordsArray,headsArray):
     return [[wordsArray[i],i] for i in range(len(wordsArray)) if headsArray[i]==index]
 
 
+def process(text):
+    text.replace("covid", "coronavirus")
+    text.replace("covid19", "coronavirus")
+    text.replace("covid-19", "coronavirus")
+    entitiesArray=[]
+    oldEntitiesArray=[]
+    wordsArray=[]
+    headsArray=[]
+    typesArray=[]
+    analyze_entities(text, oldEntitiesArray)
+    analyze_syntax(text,wordsArray,headsArray,typesArray)
+    for entity in oldEntitiesArray:
+        words=entity.split(" ")
+        entitiesArray.extend(words[:])
+    tags=[]
+    for word in entitiesArray:
+        verb=getParentVerb(word, wordsArray,headsArray,typesArray)
+        childWords=getChildrenWords(word, wordsArray,headsArray, typesArray)
+        tags.append((word, verb, childWords))
+    return tags
 
 def main(argv):
     text=""
@@ -55,22 +75,8 @@ def main(argv):
             text=arg
         elif opt in ("-p", "--print"):
             shouldPrint = True
-    text.replace("covid", "coronavirus")
-    text.replace("covid19", "coronavirus")
-    text.replace("covid-19", "coronavirus")
-    entitiesArray=[]
-    wordsArray=[]
-    headsArray=[]
-    typesArray=[]
-    analyze_entities(text, entitiesArray)
-    analyze_syntax(text,wordsArray,headsArray,typesArray)
-    tags=[]
-    for word in entitiesArray:
-        verb=getParentVerb(word, wordsArray,headsArray,typesArray)
-        childWords=getChildrenWords(word, wordsArray,headsArray, typesArray)
-        tags.append((word, verb, childWords))
+    tags=process(text)
     for tag in tags:
-	#Crides a funcions aqui
         if shouldPrint:
             print("<"+str(tag[0])+","+ str(tag[1])+","+str(tag[2])+">")
         
