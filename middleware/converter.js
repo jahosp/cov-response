@@ -9,8 +9,6 @@ class Converter {
         var input = './records/' + file
         var output = "./records/output/"+file.split('.')[0] + '.flac'
 
-        console.log(output)
-
         var args = [
             '-i',input,
             '-f','flac',output
@@ -18,8 +16,12 @@ class Converter {
 
         var proc = this.spawn(this.cmd, args);
 
+        proc.on('error', (err) => {
+            console.log(err);
+        })
+
         proc.on('close', function() {
-            cb()
+            cb(output)
         });
     }
 }

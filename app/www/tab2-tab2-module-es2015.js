@@ -189,7 +189,7 @@ let Tab2Page = class Tab2Page {
         };
         let user_id = 'testId';
         // POSAR URL DEL MIDDLEWARE
-        let endpoint = encodeURI('https://16c2d18b.ngrok.io' + user_id);
+        let endpoint = encodeURI('https://78938b71.ngrok.io/audio/' + user_id);
         this.fileTransfer.upload(fileURL, endpoint, options)
             .then((data) => {
             console.log(data);

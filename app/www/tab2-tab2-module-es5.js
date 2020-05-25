@@ -317,7 +317,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           };
           var user_id = 'testId'; // POSAR URL DEL MIDDLEWARE
 
-          var endpoint = encodeURI('https://16c2d18b.ngrok.io' + user_id);
+          var endpoint = encodeURI('https://78938b71.ngrok.io/audio/' + user_id);
           this.fileTransfer.upload(fileURL, endpoint, options).then(function (data) {
             console.log(data);
           }, function (err) {
