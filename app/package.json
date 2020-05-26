@@ -37,11 +37,12 @@
     "cordova-plugin-media": "^5.0.3",
     "cordova-plugin-media-capture": "^3.0.3",
     "rxjs": "~6.5.1",
+    "semver": "^7.3.2",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.5",
+    "@angular-devkit/build-angular": "^0.901.7",
     "@angular/cli": "~9.1.5",
     "@angular/compiler": "~9.1.6",
     "@angular/compiler-cli": "~9.1.6",

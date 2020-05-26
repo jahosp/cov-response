@@ -22,6 +22,7 @@ export class Tab2Page {
   recordingFile;
   fileTransfer: FileTransferObject = this.transfer.create();
   fileUrl;
+  contador : number = 0;
 
   startTimer() {
     this.interval = setInterval(() => {
@@ -43,8 +44,9 @@ export class Tab2Page {
       this.startTimer()
       console.log("Recording started");
 
-      this.file.createFile(this.file.externalDataDirectory, 'record.aac', true)
+      this.file.createFile(this.file.externalDataDirectory, 'record'+this.contador+'.aac', true)
       .then((path) => {
+        this.contador++;
         this.fileUrl = path.toURL();
         this.recordingFile = this.media.create(path.toURL());
         this.recordingFile.startRecord();
@@ -58,6 +60,7 @@ export class Tab2Page {
       this.stopTimer();
       console.log("Recording stoped");
       this.recordingFile.stopRecord();
+      this.recordingFile.release();
       console.log("Recorded file at: " + this.fileUrl);
       this.sendRecord();
     }
@@ -76,7 +79,7 @@ export class Tab2Page {
     
     let user_id = 'testId';
     // POSAR URL DEL MIDDLEWARE
-    let endpoint = encodeURI('https://78938b71.ngrok.io/audio/' + user_id);
+    let endpoint = encodeURI('http://192.168.1.169:3000/audio/' + user_id);
 
     this.fileTransfer.upload(fileURL, endpoint, options)
       .then((data) => {
