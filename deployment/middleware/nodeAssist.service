@@ -1,0 +1,16 @@
+[Unit]
+Description=COVID Assistant node service
+After=network.target
+StartLimitIntervalSec=30
+
+[Service]
+Type=idle
+Restart=always
+RestartSec=30
+User=vagrant
+WorkingDirectory=/opt/middleware/
+ExecStartPre=/bin/sleep 15
+ExecStart=/bin/bash /opt/middleware/middleware.sh
+
+[Install]
+WantedBy=multi-user.target
