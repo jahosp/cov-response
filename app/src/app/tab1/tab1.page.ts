@@ -9,4 +9,7 @@ export class Tab1Page {
 
   constructor() {}
 
+  openUrl(external_url) {
+    window.open(external_url);
+  }
 }

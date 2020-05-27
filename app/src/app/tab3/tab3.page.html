@@ -3,6 +3,12 @@
     <ion-title>
       Your requests
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="automaticClose = !automaticClose">
+        <ion-icon slot="icon-only" name="close" *ngIf="automaticClose"></ion-icon>
+        <ion-icon slot="icon-only" name="resize" *ngIf="!automaticClose"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -30,15 +36,22 @@
       <ion-label class="main-description">Down below you can see the response for all your requests.</ion-label>
     </ion-row>
 
-    <ion-list *ngFor="let res of response">
 
-      <ion-item>
-        <ion-label>Query ID: {{res.id_response}}
-          <p>{{res.questionText}}</p>
-          <p>{{res.responseText}}</p>
+    <ion-list *ngFor="let res of response; let i = index" class="accordion-list" lines="none" detail="false">
+
+      <ion-item tappable (click)="toggleSelection(i)" [ngClass]="{'section-active' : res.open, 'section': !res.open}">
+        <ion-icon slot="start" name="add-circle-outline" *ngIf="!res.open"></ion-icon>
+        <ion-icon slot="start" name="remove-circle-outline" *ngIf="res.open"></ion-icon>
+        <ion-label>
+          Your Query nº{{res.id_response}}
         </ion-label>
       </ion-item>
-
+      
+      <div *ngIf="res.questionText && res.open">
+        <app-query [query]="res" *ngIf="res.questionText"></app-query>
+      </div>
+      
+      <p *ngIf="response.length == 0" text-center>There are no queries, please send us one!</p>
     </ion-list>
 
   </ion-grid>

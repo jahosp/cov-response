@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ThrowStmt } from '@angular/compiler';
+import { QueryComponent } from '../query/query.component';
 
 @Component({
   selector: 'app-tab3',
@@ -8,17 +10,30 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Tab3Page {
 
+  
   constructor(public httpClient: HttpClient) { 
     
   }
-  response;
+  //response;
+  response: any[];
+  automaticClose = false;
 
   ionViewWillEnter() {
-    let result = this.httpClient.get('http://192.168.1.169:3000/results/testId')
+    this.httpClient.get('https://347ab8fd.ngrok.io/results/testId')
     .subscribe(data => {
-      this.response = data;
-      this.response = this.response.history;
-    })
+      this.response = data['history'];
+      if (this.response[0]) {
+        this.response[0].open = false;
+      }
+    });
   }
 
+  toggleSelection(index) {
+    this.response[index].open = !this.response[index].open;
+    if (this.automaticClose) {
+      this.response
+      .filter((item, itemIndex) => itemIndex != index)
+      .map(item => item.open = false);
+    }
+  }
 }
