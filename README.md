@@ -26,3 +26,6 @@ Vistes de l'aplicació:
 1. `cd middleware`
 2. `npm install`
 3. executa `node index.js` a la terminal
+
+## Demostració
+![gif](https://user-images.githubusercontent.com/64915539/83176692-27614b80-a11e-11ea-81e6-0ee197a4d5b4.gif)
