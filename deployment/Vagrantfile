@@ -1,0 +1,55 @@
+
+json_name = "ssmm-test-966b84be81d6.json"
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "COVIDAssistant" do |covid|
+    covid.vm.box = 'ubuntu/bionic64'
+    covid.vm.hostname = 'COVIDAssistant'
+    covid.vm.network "public_network"
+
+    covid.vm.network "forwarded_port", guest: 80, host: 80
+    covid.vm.network "forwarded_port", guest: 8081, host: 8081
+    covid.vm.network "forwarded_port", guest: 8082, host: 8082
+
+    covid.vm.provision "file", source: "./files", destination: "$HOME"
+
+    covid.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo apt-get update
+      sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+
+      sudo systemctl start docker
+      sudo systemctl enable docker
+
+      sudo docker network create -d bridge --subnet=10.0.0.0/23 assistant_net
+      sudo apt install git -y
+
+      sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
+      sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
+      sudo chmod +x /usr/bin/docker-compose
+
+      apt install python -y
+      apt-get install sed
+
+      sed -i 's/patata/#{json_name}/g' ./middleware/Dockerfile
+
+      git clone https://github.com/jahosp/cov-response
+      
+      cp -r ./cov-response/middleware ./middleware/middleware
+
+      sudo docker-compose up
+
+      sysctl net.ipv4.conf.all.forwarding=1
+
+      sudo iptables -P FORWARD ACCEPT
+
+      
+
+    SHELL
+
+
+  end
+end
